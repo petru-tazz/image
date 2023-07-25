@@ -36,7 +36,7 @@ impl<R: Read> AvifDecoder<R> {
         let ctx = read_avif(&mut r, ParseStrictness::Normal).map_err(error_map)?;
         let coded = ctx.primary_item_coded_data().unwrap_or_default();
 
-        let mut primary_decoder = dav1d::Decoder::new();
+        let mut primary_decoder = dav1d::Decoder::new().map_err(error_map)?;
         primary_decoder
             .send_data(coded, None, None, None)
             .map_err(error_map)?;
